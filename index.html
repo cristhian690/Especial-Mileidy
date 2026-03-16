@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>¡Feliz Cumpleaños!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #fff8f8;
+      --bg2: #ffeef5;
+      --primary: #d81b60;
+      --secondary: #8e24aa;
+      --accent: #ffb300;
+      --ink: #3a2d2d;
+      --glass: rgba(255, 255, 255, 0.75);
+      --shadow: 0 15px 50px rgba(216, 27, 96, 0.2);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 1) 0%, var(--bg2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Pétalos mejorados */
+    .petal {
+      position: absolute;
+      width: 15px; height: 20px;
+      background: radial-gradient(ellipse at center, #fff 0%, #ffc1dc 100%);
+      border-radius: 50% 0 50% 50%;
+      z-index: 1;
+      pointer-events: none;
+      animation: fall var(--dur) linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 10;
+      width: min(600px, 90vw);
+      perspective: 1000px;
+    }
+
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 30px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .subtitle {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--secondary);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(45px, 10vw, 70px);
+      color: var(--primary);
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .divider {
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 20px auto;
+      border-radius: 2px;
+    }
+
+    .msg {
+      font-size: 17px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      font-weight: 300;
+    }
+
+    .cta {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+
+    button {
+      padding: 15px 35px;
+      border-radius: 50px;
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      animation: pulse 2s infinite;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(216, 27, 96, 0.4);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(216, 27, 96, 0.4); }
+      70% { box-shadow: 0 0 0 15px rgba(216, 27, 96, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(216, 27, 96, 0); }
+    }
+
+    .btn-music {
+      background: white;
+      color: var(--secondary);
+      padding: 10px 20px;
+      font-size: 13px;
+    }
+
+    .foot {
+      margin-top: 30px;
+      font-size: 12px;
+      color: var(--ink);
+      opacity: 0.6;
+    }
+
+    canvas#confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 20;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="petals"></div>
+  <canvas id="confetti"></canvas>
+
+  <div class="wrap">
+    <main class="card">
+      <p class="subtitle">Hoy celebramos</p>
+      <h1 class="title">¡Feliz Cumpleaños, <span id="nombre">Bebe</span>! 🎉</h1>
+      <div class="divider"></div>
+      
+      <p class="msg" id="mensaje">
+        Que tu día esté lleno de sonrisas, abrazos y momentos inolvidables. Gracias por existir y por iluminar nuestras vidas ✨
+      </p>
+
+      <div class="cta">
+        <button class="btn-primary" id="btnsorpresa">Abrir mi regalo 🎁</button>
+        <button class="btn-music" id="btnMusica">🎵 Activar Música</button>
+      </div>
+
+      <div class="foot">Hecho con ❤️ por <span id="autor">Cris:)</span></div>
+    </main>
+  </div>
+
+  <audio id="bgm" loop>
+    <source src="musica.mp4" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const qs = sel => document.querySelector(sel);
+    const url = new URL(window.location.href);
+    
+    // Parámetros dinámicos
+    qs('#nombre').textContent = url.searchParams.get('para') || 'Bebe';
+    qs('#autor').textContent = url.searchParams.get('de') || 'Cris :)';
+    if(url.searchParams.has('msg')) qs('#mensaje').textContent = url.searchParams.get('msg');
+
+    // Generar Pétalos
+    const petalsWrap = qs('#petals');
+    for (let i = 0; i < 40; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.setProperty('--dur', (Math.random() * 10 + 10) + 's');
+      p.style.animationDelay = (Math.random() * -20) + 's';
+      petalsWrap.appendChild(p);
+    }
+
+    // Lógica de Confeti mejorada
+    const canvas = qs('#confetti');
+    const ctx = canvas.getContext('2d');
+    let confs = [];
+    const resize = () => { canvas.width = innerWidth; canvas.height = innerHeight; };
+    window.addEventListener('resize', resize); resize();
+
+    function burst(x, y) {
+      const colors = ['#d81b60', '#8e24aa', '#ffb300', '#ff80ab', '#ffffff'];
+      for (let i = 0; i < 100; i++) {
+        confs.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 15,
+          vy: (Math.random() - 0.7) * 15,
+          g: 0.4,
+          r: Math.random() * Math.PI,
+          s: Math.random() * 6 + 2,
+          a: 1,
+          c: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+    }
+
+    function loop() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      confs.forEach((p, i) => {
+        p.vy += p.g; p.x += p.vx; p.y += p.vy; p.a -= 0.01;
+        if(p.a <= 0) confs.splice(i, 1);
+        ctx.globalAlpha = p.a;
+        ctx.fillStyle = p.c;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.fillRect(-p.s, -p.s, p.s * 2, p.s * 2);
+        ctx.restore();
+      });
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // Botones e interacción
+    const audio = qs('#bgm');
+    const btnMusica = qs('#btnMusica');
+
+    btnMusica.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => alert("Por favor, asegúrate de tener el archivo musica1.mp3 en la misma carpeta."));
+        btnMusica.textContent = "⏸️ Pausar Música";
+      } else {
+        audio.pause();
+        btnMusica.textContent = "🎵 Activar Música";
+      }
+    });
+
+    qs('#btnsorpresa').addEventListener('click', (e) => {
+      burst(e.clientX, e.clientY);
+      setTimeout(() => {
+        window.location.href = 'sorpresa.html'; // Cambiado a redirección para mejor flujo
+      }, 800);
+    });
+
+    // Burst inicial
+    setTimeout(() => burst(innerWidth/2, innerHeight/2), 1000);
+    window.addEventListener('mousedown', e => burst(e.clientX, e.clientY));
+
+  </script>
+</body>
+</html>
